@@ -18,36 +18,75 @@ public class PasswordGenerator {
 		return data;
 	}
 
-	public static int passwordStregnth(String password) {
-		int totalScore = 0;
-		boolean hasLowercase = false;
-		boolean hasUppercase = false;
-		boolean hasSpecialChar = false;
+	public static int editDist(String str1, String str2) {
+		int m = str1.length();
+		int n = str2.length();
+		// Create a table to store results of subproblems
+		int dp[][] = new int[m + 1][n + 1];
+
+		// Fill d[][] in bottom up manner
+		for (int i = 0; i <= m; i++) {
+			for (int j = 0; j <= n; j++) {
+				if (i == 0)
+					dp[i][j] = j;
+				else if (j == 0)
+					dp[i][j] = i;
+				else if (str1.charAt(i - 1) == str2.charAt(j - 1))
+					dp[i][j] = dp[i - 1][j - 1];
+
+				else
+					dp[i][j] = 1 + Math.min(Math.min(dp[i][j - 1], dp[i - 1][j]), dp[i - 1][j - 1]);
+			}
+		}
+
+		return dp[m][n];
+	}
+
+	public static String passwordStregnth(String password) {
+		String s = FileUtil.readFile("passwordscommon.txt", "Encryption");
+		String[] commonPasswordList = s.split("\n");
+		double totalScore = 0;
+		int hasLowercase = 0;
+		int hasUppercase = 0;
+		int hasSpecialChar = 0;
 		HashSet<Character> setChar = new HashSet<>();
 		for (int i = 0; i < password.length(); i++) {
 			char charI = password.charAt(i);
 			setChar.add(password.charAt(i));
 			if (password.charAt(i) < 65 || (charI > 90 && charI < 97)) {
-				hasSpecialChar = true;
+				hasSpecialChar = 1;
 			}
 			if (password.charAt(i) > 64 && password.charAt(i) < 91) {
-				hasUppercase = true;
+				hasUppercase = 1;
 			}
 			if (password.charAt(i) > 96 && password.charAt(i) < 123) {
-				hasLowercase = true;
+				hasLowercase = 1;
 			}
 		}
 		int numUnique = setChar.size();
 		if (numUnique < password.length() / 2) {
 			totalScore -= (password.length() - numUnique);
 		}
-		totalScore += password.length() * 2;
-
-		return 0;
+		totalScore += Math.max(0.7, hasSpecialChar + hasUppercase + hasLowercase) * password.length();
+		for (String commonp : commonPasswordList) {
+			if (editDist(commonp, password) < 4) {
+				totalScore -= (30 / (0.5 + editDist(commonp, password)));
+				break;
+			}
+		}
+		if (totalScore < 20) {
+			return "Weak";
+		} else if (totalScore < 50) {
+			return "Medium";
+		} else {
+			return "Strong";
+		}
 	}
 
 	public static void main(String[] args) {
-		System.out.print(PasswordGenerator.generatePassword(23, "Aditya"));
+		String passw = PasswordGenerator.generatePassword(100, "Aditya");
+		System.out.println(passw);
+		System.out.println(PasswordGenerator.passwordStregnth(""));
 	}
 
 }
