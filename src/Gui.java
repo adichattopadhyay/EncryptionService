@@ -40,12 +40,12 @@ class Gui extends JFrame {
 	}
 
 	private void initComponent() {
-		encrypt.setBounds(350, 130, 200, 100);
-		decrypt.setBounds(350, 240, 200, 100);
+		encrypt.setBounds(360, 130, 150, 40);
+		decrypt.setBounds(360, 180, 150, 40);
 		encryptButton.setBounds(360, 400, 150, 40);
 		decryptButton.setBounds(360, 400, 150, 40);
-		yes.setBounds(350, 130, 200, 100);
-		no.setBounds(350, 240, 200, 100);
+		yes.setBounds(360, 130, 150, 40);
+		no.setBounds(360, 180, 150, 40);
 
 		txtA.setBounds(100, 10, 700, 20);
 		txtB.setBounds(100, 35, 700, 20);
@@ -201,7 +201,7 @@ class Gui extends JFrame {
 
 	private void performEncryption(ActionEvent evt) {
 
-		while (done = false) {
+		while (done == false) {
 			if (fileCheck == false) {
 				String text = txtA.getText();
 				String password = txtB.getText();
@@ -211,14 +211,16 @@ class Gui extends JFrame {
 					try {
 						Encryption e = new Encryption();
 						String encryptedText = e.encrypt(text, password);
-						System.out.println(encryptedText);
+						error.setText(encryptedText);
+						done = true;
 					} catch (Exception e) {
 						error.setText("Something went wrong, try again.");
+						done = false;
 					}
 				}
 			} else if (fileCheck == true) {
 			}
-
+			repaint();
 		}
 	}
 	
