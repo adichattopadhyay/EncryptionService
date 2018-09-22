@@ -1,23 +1,23 @@
 public class PasswordManager {
 
-	public void addPassword(String id, String username, String password, String encryptionPassword) {
+	public void addPassword(String id, String username, String password, String encryptionPassword) { 
 		String decryptedFile = null;
 		String encryptedFile = null;
-		String s = FileUtil.readFile("passwords.txt", "Decryption");
+		String s = FileUtil.readFile("passwords.txt", "Decryption"); //reads all the passwords
 		Decryption d = new Decryption();
 		try {
-			decryptedFile = d.decrypt("s", encryptionPassword);
+			decryptedFile = d.decrypt("s", encryptionPassword); //decrypts the passwords
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		decryptedFile += "\n" + id + ":= " + username + ": " + password;
+		decryptedFile += "\n" + id + ":= " + username + ": " + password; //adds new passwords
 		Encryption e = new Encryption();
 		try {
-			encryptedFile = e.encrypt(decryptedFile, encryptionPassword);
+			encryptedFile = e.encrypt(decryptedFile, encryptionPassword); //encrypts file
 		} catch (Exception a) {
 			System.out.println(a);
 		}
-		FileUtil.writeFile(encryptedFile, "passwords.txt");
+		FileUtil.writeFile(encryptedFile, "passwords.txt"); //rewrite the file
 	}
 
 	public String getPassword(String id, String encryptionPassword) {
@@ -29,17 +29,12 @@ public class PasswordManager {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		String[] entries = decryptedFile.split("\n");
+		String[] entries = decryptedFile.split("\n"); //splits file for finding passwords
 		for (String entry : entries) {
-			if(entry.substring(0, entry.indexOf(":= ")).equals(id)) {
-				return entry.substring(entry.indexOf(":=")+ 3);
+			if(entry.substring(0, entry.indexOf(":= ")).equals(id)) { //looks for id
+				return entry.substring(entry.indexOf(":=")+ 3); //returns the passwords
 			}
 		}
 		return "That ID does not exist";
-	}
-
-	public String[] getAllIds() {
-
-		return null;
 	}
 }
