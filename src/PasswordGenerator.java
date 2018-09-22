@@ -85,10 +85,5 @@ public class PasswordGenerator {
 		}
 	}
 
-	public static void main(String[] args) {
-		String passw = PasswordGenerator.generatePassword(100, "Aditya");
-		System.out.println(passw);
-		System.out.println(PasswordGenerator.passwordStregnth(""));
-	}
 
 }
