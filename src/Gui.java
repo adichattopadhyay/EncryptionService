@@ -40,12 +40,12 @@ class Gui extends JFrame {
 	}
 
 	private void initComponent() {
-		encrypt.setBounds(360, 130, 150, 40);
-		decrypt.setBounds(360, 180, 150, 40);
+		encrypt.setBounds(360, 150, 150, 40);
+		decrypt.setBounds(360, 200, 150, 40);
 		encryptButton.setBounds(360, 400, 150, 40);
 		decryptButton.setBounds(360, 400, 150, 40);
-		yes.setBounds(360, 130, 150, 40);
-		no.setBounds(360, 180, 150, 40);
+		yes.setBounds(360, 150, 150, 40);
+		no.setBounds(360, 200, 150, 40);
 
 		txtA.setBounds(100, 10, 700, 20);
 		txtB.setBounds(100, 35, 700, 20);
@@ -229,8 +229,4 @@ class Gui extends JFrame {
 		
 		}
 
-	public static void main(String[] args) { // remove eventually
-		Gui g = new Gui();
-		g.setVisible(true);
-	}
 }
