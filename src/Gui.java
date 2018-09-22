@@ -42,8 +42,8 @@ class Gui extends JFrame {
 	private void initComponent() {
 		encrypt.setBounds(350, 130, 200, 100);
 		decrypt.setBounds(350, 240, 200, 100);
-		encryptButton.setBounds(300, 130, 300, 200);
-		decryptButton.setBounds(300, 130, 300, 200);
+		encryptButton.setBounds(360, 400, 150, 40);
+		decryptButton.setBounds(360, 400, 150, 40);
 		yes.setBounds(350, 130, 200, 100);
 		no.setBounds(350, 240, 200, 100);
 
@@ -51,7 +51,7 @@ class Gui extends JFrame {
 		txtB.setBounds(100, 35, 700, 20);
 		prompt.setBounds(330, 90, 240, 30);
 		txtC.setBounds(100, 10, 700, 20);
-		txtD.setBounds(100, 65, 100, 20);
+		txtD.setBounds(100, 65, 700, 20);
 		error.setBounds(300, 350, 300, 30);
 
 		lblA.setBounds(20, 10, 100, 20);
@@ -87,13 +87,13 @@ class Gui extends JFrame {
 
 		decryptButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				performEncryption(e);
+				performDecryption(e);
 			}
 		});
 
 		encryptButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				performDecryption(e);
+				performEncryption(e);
 			}
 		});
 
@@ -151,9 +151,12 @@ class Gui extends JFrame {
 			add(lblB);
 			add(lblC);
 			add(error);
+			
 		}
+		
 		error.setText("Type in the inputs, then hit the encrypt button.");
 		add(encryptButton);
+		repaint();
 	}
 
 	private void createDecryptButton(ActionEvent evt) {
@@ -178,11 +181,14 @@ class Gui extends JFrame {
 		}
 		error.setText("Type in the inputs, then hit the decrypt button.");
 		add(decryptButton);
+		repaint();
 	}
 
 	private void askIfFile(ActionEvent evt) {
 		encrypt.setVisible(false);
 		decrypt.setVisible(false);
+//		remove(encrypt);
+//		remove(decrypt);
 		add(yes);
 		add(no);
 		if (mode == 1) {
@@ -190,6 +196,7 @@ class Gui extends JFrame {
 		} else if (mode == 2) {
 			prompt.setText("Would you like to decrypt a file?");
 		}
+		repaint();
 	}
 
 	private void performEncryption(ActionEvent evt) {
@@ -214,7 +221,8 @@ class Gui extends JFrame {
 
 		}
 	}
-
+	
+	
 	private void performDecryption(ActionEvent evt) {
 		
 		}
