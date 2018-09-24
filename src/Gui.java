@@ -66,7 +66,7 @@ class Gui extends JFrame {
 		prompt.setText("Would you like to Encrypt or Decrypt?");
 		prompt.setEditable(false);
 		error.setEditable(false);
-		
+
 		txtA.setVisible(true);
 		txtB.setVisible(true);
 		txtC.setVisible(true);
@@ -142,8 +142,7 @@ class Gui extends JFrame {
 			add(lblA);
 			add(lblB);
 			add(error);
-		}
-		else {
+		} else {
 			add(txtC);
 			add(txtB);
 			add(txtD);
@@ -151,9 +150,9 @@ class Gui extends JFrame {
 			add(lblB);
 			add(lblC);
 			add(error);
-			
+
 		}
-		
+
 		error.setText("Type in the inputs, then hit the encrypt button.");
 		add(encryptButton);
 		repaint();
@@ -169,8 +168,7 @@ class Gui extends JFrame {
 			add(lblA);
 			add(lblB);
 			add(error);
-		}
-		else {
+		} else {
 			add(txtC);
 			add(txtB);
 			add(txtD);
@@ -187,14 +185,14 @@ class Gui extends JFrame {
 	private void askIfFile(ActionEvent evt) {
 		encrypt.setVisible(false);
 		decrypt.setVisible(false);
-//		remove(encrypt);
-//		remove(decrypt);
+		// remove(encrypt);
+		// remove(decrypt);
 		add(yes);
 		add(no);
 		if (mode == 1) {
-			prompt.setText("Would you like to encrypt a file");
+			prompt.setText("Would you like to Encrypt a file?");
 		} else if (mode == 2) {
-			prompt.setText("Would you like to decrypt a file?");
+			prompt.setText("Would you like to Decrypt a file?");
 		}
 		repaint();
 	}
@@ -219,14 +217,59 @@ class Gui extends JFrame {
 					}
 				}
 			} else if (fileCheck == true) {
+				String inputPath = txtC.getText();
+				String outputPath = txtD.getText();
+				String password = txtB.getText();
+				try {
+					Encryption e = new Encryption();
+					e.encryptFile(inputPath, outputPath, password);
+					error.setText("The file has been encrypted.");
+					done = true;
+				} catch (Exception e) {
+					error.setText("Something went wrong, try again.");
+					done = false;
+				}
+
 			}
 			repaint();
 		}
 	}
-	
-	
+
 	private void performDecryption(ActionEvent evt) {
-		
+
+		while (done == false) {
+			if (fileCheck == false) {
+				String text = txtA.getText();
+				String password = txtB.getText();
+				if (text == "" || password == "") {
+					error.setText("Type in the inputs, then hit the encrypt button.");
+				} else {
+					try {
+						Decryption d = new Decryption();
+						String decryptedText = d.decrypt(text, password);
+						error.setText(decryptedText);
+						done = true;
+					} catch (Exception e) {
+						error.setText("Something went wrong, try again.");
+						done = false;
+					}
+				}
+			} else if (fileCheck == true) {
+				String inputPath = txtC.getText();
+				String outputPath = txtD.getText();
+				String password = txtB.getText();
+				try {
+					Decryption d = new Decryption();
+					d.decryptFile(inputPath, outputPath, password);
+					error.setText("The file has been decrypted");
+					done = true;
+				} catch (Exception e) {
+					error.setText("Something went wrong, try again.");
+					done = false;
+				}
+			}
+			repaint();
 		}
+	}
 
 }
