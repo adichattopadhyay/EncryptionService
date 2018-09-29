@@ -13,8 +13,10 @@ class Gui extends JFrame {
 	private JButton encrypt = new JButton("Encrypt");
 	private JButton decryptButton = new JButton("Decrypt Text");
 	private JButton encryptButton = new JButton("Encrypt Text");
-	private JButton yes = new JButton("Yes");
-	private JButton no = new JButton("No");
+	private JButton encryptFile = new JButton("Encrypt File");
+	private JButton encryptText = new JButton("Encrypt Text");
+	private JButton decryptFile = new JButton("Decrypt File");
+	private JButton decryptText = new JButton("Decrypt Text");
 
 	private JTextField txtA = new JTextField();
 	private JTextField txtB = new JTextField();
@@ -22,11 +24,13 @@ class Gui extends JFrame {
 	private JTextField txtC = new JTextField();
 	private JTextField error = new JTextField();
 	private JTextField txtD = new JTextField();
+	private JTextField txtE = new JTextField();
 
 	private JLabel lblA = new JLabel("Text :");
 	private JLabel lblB = new JLabel("Password :");
 	private JLabel lblC = new JLabel("Input Path :");
 	private JLabel lblD = new JLabel("Output Path :");
+	private JLabel lblE = new JLabel("ID: ");
 
 	public Gui() {
 		setTitle("Encryption Service");
@@ -44,20 +48,24 @@ class Gui extends JFrame {
 		decrypt.setBounds(360, 200, 150, 40);
 		encryptButton.setBounds(360, 400, 150, 40);
 		decryptButton.setBounds(360, 400, 150, 40);
-		yes.setBounds(360, 150, 150, 40);
-		no.setBounds(360, 200, 150, 40);
+		encryptFile.setBounds(360, 150, 150, 40);
+		encryptText.setBounds(360, 200, 150, 40);
+		decryptFile.setBounds(360, 150, 150, 40);
+		decryptText.setBounds(360, 200, 150, 40);
 
 		txtA.setBounds(100, 10, 700, 20);
 		txtB.setBounds(100, 35, 700, 20);
 		prompt.setBounds(330, 90, 240, 30);
 		txtC.setBounds(100, 10, 700, 20);
 		txtD.setBounds(100, 65, 700, 20);
+		txtE.setBounds(100, 90, 700, 20);
 		error.setBounds(300, 350, 300, 30);
 
 		lblA.setBounds(20, 10, 100, 20);
 		lblB.setBounds(20, 35, 100, 20);
 		lblD.setBounds(20, 65, 100, 20);
 		lblC.setBounds(20, 10, 100, 20);
+		lblE.setBounds(20, 90, 100, 20);
 
 		add(encrypt);
 		add(decrypt);
@@ -110,32 +118,34 @@ class Gui extends JFrame {
 				askIfFile(e);
 			}
 		});
-		yes.addActionListener(new ActionListener() {
+		encryptFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				fileCheck = true;
-				if (mode == 1) {
-					createEncryptButton(e);
-				} else if (mode == 2) {
-					createDecryptButton(e);
-				}
-			}
-		});
-		no.addActionListener(new ActionListener() {
+				createEncryptButton(e);		
+			}});
+		encryptText.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				fileCheck = false;
-				if (mode == 1) {
-					createEncryptButton(e);
-				} else if (mode == 2) {
-					createDecryptButton(e);
-				}
+				createEncryptButton(e);
+			}
+		});
+		decryptFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fileCheck = true;
+				createDecryptButton(e);		
+			}});
+		decryptText.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fileCheck = false;
+				createDecryptButton(e);
 			}
 		});
 	}
 
 	private void createEncryptButton(ActionEvent evt) {
 		prompt.setVisible(false);
-		yes.setVisible(false);
-		no.setVisible(false);
+		encryptFile.setVisible(false);
+		encryptText.setVisible(false);
 		if (fileCheck == false) {
 			add(txtA);
 			add(txtB);
@@ -160,8 +170,8 @@ class Gui extends JFrame {
 
 	private void createDecryptButton(ActionEvent evt) {
 		prompt.setVisible(false);
-		yes.setVisible(false);
-		no.setVisible(false);
+		decryptFile.setVisible(false);
+		decryptText.setVisible(false);
 		if (fileCheck == false) {
 			add(txtA);
 			add(txtB);
@@ -185,14 +195,14 @@ class Gui extends JFrame {
 	private void askIfFile(ActionEvent evt) {
 		encrypt.setVisible(false);
 		decrypt.setVisible(false);
-		// remove(encrypt);
-		// remove(decrypt);
-		add(yes);
-		add(no);
+		prompt.setVisible(false);
+		
 		if (mode == 1) {
-			prompt.setText("Would you like to Encrypt a file?");
+			add(encryptFile);
+			add(encryptText);
 		} else if (mode == 2) {
-			prompt.setText("Would you like to Decrypt a file?");
+			add(decryptFile);
+			add(decryptText);
 		}
 		repaint();
 	}
