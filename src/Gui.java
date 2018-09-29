@@ -13,6 +13,10 @@ class Gui extends JFrame {
 	private JButton encrypt = new JButton("Encrypt");
 	private JButton decryptButton = new JButton("Decrypt Text");
 	private JButton encryptButton = new JButton("Encrypt Text");
+	private JButton passwordGenerator = new JButton("Password Generator");
+	private JButton passwordManager = new JButton("Password Manager");
+	private JButton passwordNew = new JButton("Generate New Password");
+	private JButton passwordStrength = new JButton("Password Strength");
 	private JButton encryptFile = new JButton("Encrypt File");
 	private JButton encryptText = new JButton("Encrypt Text");
 	private JButton decryptFile = new JButton("Decrypt File");
@@ -31,6 +35,8 @@ class Gui extends JFrame {
 	private JLabel lblC = new JLabel("Input Path :");
 	private JLabel lblD = new JLabel("Output Path :");
 	private JLabel lblE = new JLabel("ID: ");
+	private JLabel lblF = new JLabel("Password Length :");
+	private JLabel lblG = new JLabel("Seed: ");
 
 	public Gui() {
 		setTitle("Encryption Service");
@@ -44,14 +50,18 @@ class Gui extends JFrame {
 	}
 
 	private void initComponent() {
-		encrypt.setBounds(360, 150, 150, 40);
-		decrypt.setBounds(360, 200, 150, 40);
-		encryptButton.setBounds(360, 400, 150, 40);
-		decryptButton.setBounds(360, 400, 150, 40);
-		encryptFile.setBounds(360, 150, 150, 40);
-		encryptText.setBounds(360, 200, 150, 40);
-		decryptFile.setBounds(360, 150, 150, 40);
-		decryptText.setBounds(360, 200, 150, 40);
+		encrypt.setBounds(360, 150, 200, 40);
+		decrypt.setBounds(360, 200, 200, 40);
+		passwordStrength.setBounds(360, 150, 200, 40);
+		passwordNew.setBounds(360, 200, 200, 40);
+		passwordGenerator.setBounds(360, 250, 200, 40);
+		passwordManager.setBounds(360, 300, 200, 40);
+		encryptButton.setBounds(360, 400, 200, 40);
+		decryptButton.setBounds(360, 400, 200, 40);
+		encryptFile.setBounds(360, 150, 200, 40);
+		encryptText.setBounds(360, 200, 200, 40);
+		decryptFile.setBounds(360, 150, 200, 40);
+		decryptText.setBounds(360, 200, 200, 40);
 
 		txtA.setBounds(100, 10, 700, 20);
 		txtB.setBounds(100, 35, 700, 20);
@@ -66,12 +76,14 @@ class Gui extends JFrame {
 		lblD.setBounds(20, 65, 100, 20);
 		lblC.setBounds(20, 10, 100, 20);
 		lblE.setBounds(20, 90, 100, 20);
+		lblF.setBounds(20, 10, 100, 20);
+		lblG.setBounds(20, 35, 100, 20);
 
 		add(encrypt);
 		add(decrypt);
+		add(passwordManager);
+		add(passwordGenerator);
 
-		add(prompt);
-		prompt.setText("Would you like to Encrypt or Decrypt?");
 		prompt.setEditable(false);
 		error.setEditable(false);
 
@@ -90,6 +102,29 @@ class Gui extends JFrame {
 		this.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				System.exit(1);
+			}
+		});
+
+		passwordGenerator.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				passwordGen(e);
+			}
+		});
+		
+		passwordNew.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				performGeneration(e);
+			}
+		});
+		passwordStrength.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				passwordStrengthCheck(e);
+			}
+		});
+
+		passwordManager.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				passwordMan(e);
 			}
 		});
 
@@ -121,8 +156,9 @@ class Gui extends JFrame {
 		encryptFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				fileCheck = true;
-				createEncryptButton(e);		
-			}});
+				createEncryptButton(e);
+			}
+		});
 		encryptText.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				fileCheck = false;
@@ -132,14 +168,40 @@ class Gui extends JFrame {
 		decryptFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				fileCheck = true;
-				createDecryptButton(e);		
-			}});
+				createDecryptButton(e);
+			}
+		});
 		decryptText.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				fileCheck = false;
 				createDecryptButton(e);
 			}
 		});
+	}
+	
+	private void performGeneration(ActionEvent evt) {
+		
+	}
+	
+	private void passwordStrengthCheck(ActionEvent evt) {
+		
+	}
+
+	private void passwordGen(ActionEvent evt) {
+		encrypt.setVisible(false);
+		decrypt.setVisible(false);
+		passwordGenerator.setVisible(false);
+		passwordManager.setVisible(false);
+		add(passwordStrength);
+		add(passwordNew);
+		repaint();
+	}
+
+	private void passwordMan(ActionEvent evt) {
+		encrypt.setVisible(false);
+		decrypt.setVisible(false);
+		passwordGenerator.setVisible(false);
+		passwordManager.setVisible(false);
 	}
 
 	private void createEncryptButton(ActionEvent evt) {
@@ -195,8 +257,8 @@ class Gui extends JFrame {
 	private void askIfFile(ActionEvent evt) {
 		encrypt.setVisible(false);
 		decrypt.setVisible(false);
-		prompt.setVisible(false);
-		
+		passwordGenerator.setVisible(false);
+		passwordManager.setVisible(false);
 		if (mode == 1) {
 			add(encryptFile);
 			add(encryptText);

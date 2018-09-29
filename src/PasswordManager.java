@@ -1,8 +1,20 @@
+import java.io.File;
+import java.io.IOException;
+
 public class PasswordManager {
 
 	public void addPassword(String id, String username, String password, String encryptionPassword) { 
 		String decryptedFile = null;
 		String encryptedFile = null;
+		File f = new File("passwords.txt");
+		if(!(f.exists() && !f.isDirectory())) {
+			try {
+				f.createNewFile();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+		}
 		String s = FileUtil.readFile("passwords.txt", "Decryption"); //reads all the passwords
 		Decryption d = new Decryption();
 		try {
