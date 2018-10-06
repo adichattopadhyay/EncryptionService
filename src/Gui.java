@@ -8,12 +8,14 @@ class Gui extends JFrame {
 	static int DECRYPTION = 2;
 	static boolean fileCheck = false;
 	static boolean done = false;
+	static boolean continueOn = true;
 
 	private JButton decrypt = new JButton("Decrypt");
 	private JButton encrypt = new JButton("Encrypt");
 	private JButton decryptButton = new JButton("Decrypt Text");
 	private JButton encryptButton = new JButton("Encrypt Text");
 	private JButton passwordGenerator = new JButton("Password Generator");
+	private JButton generateButton = new JButton("Generate");
 	private JButton passwordManager = new JButton("Password Manager");
 	private JButton passwordNew = new JButton("Generate New Password");
 	private JButton passwordStrength = new JButton("Password Strength");
@@ -35,7 +37,7 @@ class Gui extends JFrame {
 	private JLabel lblC = new JLabel("Input Path :");
 	private JLabel lblD = new JLabel("Output Path :");
 	private JLabel lblE = new JLabel("ID: ");
-	private JLabel lblF = new JLabel("Password Length :");
+	private JLabel lblF = new JLabel("Password Len:");
 	private JLabel lblG = new JLabel("Seed: ");
 
 	public Gui() {
@@ -62,13 +64,14 @@ class Gui extends JFrame {
 		encryptText.setBounds(360, 200, 200, 40);
 		decryptFile.setBounds(360, 150, 200, 40);
 		decryptText.setBounds(360, 200, 200, 40);
+		generateButton.setBounds(360, 400, 200, 40);
 
-		txtA.setBounds(100, 10, 700, 20);
-		txtB.setBounds(100, 35, 700, 20);
+		txtA.setBounds(110, 10, 700, 20);
+		txtB.setBounds(110, 35, 700, 20);
 		prompt.setBounds(330, 90, 240, 30);
-		txtC.setBounds(100, 10, 700, 20);
-		txtD.setBounds(100, 65, 700, 20);
-		txtE.setBounds(100, 90, 700, 20);
+		txtC.setBounds(110, 10, 700, 20);
+		txtD.setBounds(110, 65, 700, 20);
+		txtE.setBounds(110, 90, 700, 20);
 		error.setBounds(300, 350, 300, 30);
 
 		lblA.setBounds(20, 10, 100, 20);
@@ -113,7 +116,7 @@ class Gui extends JFrame {
 		
 		passwordNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				performGeneration(e);
+				makePasswordGen(e);
 			}
 		});
 		passwordStrength.addActionListener(new ActionListener() {
@@ -177,10 +180,72 @@ class Gui extends JFrame {
 				createDecryptButton(e);
 			}
 		});
+		generateButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				performGeneration(e);
+			}
+		});
+	}
+	
+	public static int editDist(String str1, String str2) {
+		int m = str1.length();
+		int n = str2.length();
+		// Create a table to store results of subproblems
+		int dp[][] = new int[m + 1][n + 1];
+
+		// Fill d[][] in bottom up manner
+		for (int i = 0; i <= m; i++) {
+			for (int j = 0; j <= n; j++) {
+				if (i == 0)
+					dp[i][j] = j;
+				else if (j == 0)
+					dp[i][j] = i;
+				else if (str1.charAt(i - 1) == str2.charAt(j - 1))
+					dp[i][j] = dp[i - 1][j - 1];
+
+				else
+					dp[i][j] = 1 + Math.min(Math.min(dp[i][j - 1], dp[i - 1][j]), dp[i - 1][j - 1]);
+			}
+		}
+
+		return dp[m][n];
+	}
+	
+	private void makePasswordGen(ActionEvent evt) {
+		add(error);
+		error.setText("Type in the password length(number) and seed.");
+		add(lblF);
+		add(lblG);
+		passwordStrength.setVisible(false);
+		passwordNew.setVisible(false);
+		add(txtA);
+		add(txtB);
+		add(generateButton);
+		repaint();
 	}
 	
 	private void performGeneration(ActionEvent evt) {
-		
+		continueOn = true;
+		int lenPassword = 0;
+		String passwordLen = txtA.getText();
+		String seed = txtB.getText();
+		if (seed == "" || passwordLen == "") {
+			error.setText("You something wrong");
+		}
+		else {
+			try {
+				lenPassword = Integer.parseInt(passwordLen);
+			}
+			catch(Exception e) {
+				error.setText("You did something wrong");
+				continueOn = false;
+			}
+			if (continueOn == true) {
+				String newPassword = PasswordGenerator.generatePassword(lenPassword, seed);
+				error.setText(newPassword);
+			}
+		}
+		repaint();
 	}
 	
 	private void passwordStrengthCheck(ActionEvent evt) {
