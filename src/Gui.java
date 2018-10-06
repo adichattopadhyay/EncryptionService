@@ -15,6 +15,7 @@ class Gui extends JFrame {
 	private JButton decryptButton = new JButton("Decrypt Text");
 	private JButton encryptButton = new JButton("Encrypt Text");
 	private JButton passwordGenerator = new JButton("Password Generator");
+	private JButton strengthButton = new JButton("Find Strength");
 	private JButton generateButton = new JButton("Generate");
 	private JButton passwordManager = new JButton("Password Manager");
 	private JButton passwordNew = new JButton("Generate New Password");
@@ -60,6 +61,7 @@ class Gui extends JFrame {
 		passwordManager.setBounds(360, 300, 200, 40);
 		encryptButton.setBounds(360, 400, 200, 40);
 		decryptButton.setBounds(360, 400, 200, 40);
+		strengthButton.setBounds(360, 400, 200, 40);
 		encryptFile.setBounds(360, 150, 200, 40);
 		encryptText.setBounds(360, 200, 200, 40);
 		decryptFile.setBounds(360, 150, 200, 40);
@@ -121,7 +123,7 @@ class Gui extends JFrame {
 		});
 		passwordStrength.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				passwordStrengthCheck(e);
+				passwordStrengthButton(e);
 			}
 		});
 
@@ -185,6 +187,11 @@ class Gui extends JFrame {
 				performGeneration(e);
 			}
 		});
+		strengthButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				passwordStrengthCheck(e);
+			}
+		});
 	}
 	
 	public static int editDist(String str1, String str2) {
@@ -209,6 +216,18 @@ class Gui extends JFrame {
 		}
 
 		return dp[m][n];
+	}
+	
+	private void passwordStrengthButton(ActionEvent evt) {
+		add(error);
+		error.setText("Type in the password.");
+		add(lblA);
+		lblA.setText("Password:");
+		passwordStrength.setVisible(false);
+		passwordNew.setVisible(false);
+		add(txtA);
+		add(strengthButton);
+		repaint();
 	}
 	
 	private void makePasswordGen(ActionEvent evt) {
@@ -249,7 +268,10 @@ class Gui extends JFrame {
 	}
 	
 	private void passwordStrengthCheck(ActionEvent evt) {
-		
+		String password = txtA.getText();
+		String score = PasswordGenerator.passwordStregnth(password);
+		error.setText(score);
+		repaint();
 	}
 
 	private void passwordGen(ActionEvent evt) {
