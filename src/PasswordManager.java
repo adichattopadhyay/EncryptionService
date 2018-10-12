@@ -3,7 +3,7 @@ import java.io.IOException;
 
 public class PasswordManager {
 
-	public void addPassword(String id, String username, String password, String encryptionPassword) { 
+	public static void addPassword(String id, String username, String password, String encryptionPassword) { 
 		String decryptedFile = null;
 		String encryptedFile = null;
 		File f = new File("passwords.txt");
@@ -32,8 +32,17 @@ public class PasswordManager {
 		FileUtil.writeFile(encryptedFile, "passwords.txt"); //rewrite the file
 	}
 
-	public String getPassword(String id, String encryptionPassword) {
+	public static String getPassword(String id, String encryptionPassword) {
 		String decryptedFile = null;
+		File f = new File("passwords.txt");
+		if(!(f.exists() && !f.isDirectory())) {
+			try {
+				f.createNewFile();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+		}
 		String s = FileUtil.readFile("passwords.txt", "Decryption");
 		Decryption d = new Decryption();
 		try {

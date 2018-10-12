@@ -20,6 +20,10 @@ class Gui extends JFrame {
 	private JButton passwordManager = new JButton("Password Manager");
 	private JButton passwordNew = new JButton("Generate New Password");
 	private JButton passwordStrength = new JButton("Password Strength");
+	private JButton passwordAdd = new JButton("Add Password");
+	private JButton passwordGet = new JButton("Get Password");
+	private JButton passwordFind = new JButton("Find Password");
+	private JButton addPassword = new JButton("Add New Password");
 	private JButton encryptFile = new JButton("Encrypt File");
 	private JButton encryptText = new JButton("Encrypt Text");
 	private JButton decryptFile = new JButton("Decrypt File");
@@ -67,19 +71,23 @@ class Gui extends JFrame {
 		decryptFile.setBounds(360, 150, 200, 40);
 		decryptText.setBounds(360, 200, 200, 40);
 		generateButton.setBounds(360, 400, 200, 40);
-
+		passwordFind.setBounds(360, 400, 200, 40);
+		addPassword.setBounds(360, 400, 200, 40);
+		passwordAdd.setBounds(360, 150, 200, 40);
+		passwordGet.setBounds(360, 200, 200, 40);
+		
+		txtC.setBounds(110, 10, 700, 20);
 		txtA.setBounds(110, 10, 700, 20);
 		txtB.setBounds(110, 35, 700, 20);
-		prompt.setBounds(330, 90, 240, 30);
-		txtC.setBounds(110, 10, 700, 20);
 		txtD.setBounds(110, 65, 700, 20);
 		txtE.setBounds(110, 90, 700, 20);
-		error.setBounds(300, 350, 300, 30);
-
+		prompt.setBounds(330, 90, 240, 30);
+		error.setBounds(160, 350, 550, 30);
+		
+		lblC.setBounds(20, 10, 100, 20);
 		lblA.setBounds(20, 10, 100, 20);
 		lblB.setBounds(20, 35, 100, 20);
 		lblD.setBounds(20, 65, 100, 20);
-		lblC.setBounds(20, 10, 100, 20);
 		lblE.setBounds(20, 90, 100, 20);
 		lblF.setBounds(20, 10, 100, 20);
 		lblG.setBounds(20, 35, 100, 20);
@@ -109,7 +117,31 @@ class Gui extends JFrame {
 				System.exit(1);
 			}
 		});
-
+		
+		passwordAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				readyPasswordAdd(e);
+			}
+		});
+		
+		passwordGet.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				readyPasswordGet(e);
+			}
+		});
+		
+		passwordFind.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				passwordGet(e);
+			}
+		});
+		
+		passwordAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				passwordAdd(e);
+			}
+		});
+		
 		passwordGenerator.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				passwordGen(e);
@@ -218,6 +250,67 @@ class Gui extends JFrame {
 		return dp[m][n];
 	}
 	
+	private void readyPasswordAdd(ActionEvent evt) {
+		passwordAdd.setVisible(false);
+		passwordGet.setVisible(false);
+		add(txtA);
+		add(txtB);
+		add(txtD);
+		add(txtE);
+		add(lblA);
+		add(lblB);
+		add(lblD);
+		add(lblE);
+		lblA.setText("ID: ");
+		lblB.setText("Username: ");
+		lblD.setText("Password: ");
+		lblE.setText("EncryptPass: ");
+		add(addPassword);
+		add(error);
+		error.setText("Type the id for the password, the username, password, and the password for encryption.");
+		repaint();
+	}
+	
+	private void readyPasswordGet(ActionEvent evt) {
+		passwordAdd.setVisible(false);
+		passwordGet.setVisible(false);
+		add(txtA);
+		add(txtB);
+		add(lblA);
+		add(lblB);
+		lblA.setText("ID: ");
+		lblB.setText("EncryptPass: ");
+		add(passwordFind);
+		repaint();
+	}
+	
+	private void passwordAdd(ActionEvent evt) {
+		String id = txtA.getText();
+		String username = txtB.getText();
+		String password = txtD.getText();
+		String encPassword = txtE.getText();
+		if (id == "" || username == "" || password == "" || encPassword == "") {
+			error.setText("You did something wrong.");
+		}
+		else {
+			PasswordManager.addPassword(id, username, password, encPassword);
+			error.setText("The Password has been added");
+		}
+		repaint();
+	}
+	
+	private void passwordGet(ActionEvent evt) {
+		String id = txtA.getText();
+		String encPassword = txtE.getText();
+		if (id == "" || encPassword == "") {
+			error.setText("You did something wrong.");
+		}
+		else {
+			String finalText = PasswordManager.getPassword(id, encPassword);
+			error.setText(finalText);
+		}
+	}
+	
 	private void passwordStrengthButton(ActionEvent evt) {
 		add(error);
 		error.setText("Type in the password.");
@@ -289,6 +382,9 @@ class Gui extends JFrame {
 		decrypt.setVisible(false);
 		passwordGenerator.setVisible(false);
 		passwordManager.setVisible(false);
+		add(passwordAdd);
+		add(passwordGet);
+		repaint();
 	}
 
 	private void createEncryptButton(ActionEvent evt) {
