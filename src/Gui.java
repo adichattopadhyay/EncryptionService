@@ -136,7 +136,7 @@ class Gui extends JFrame {
 			}
 		});
 		
-		passwordAdd.addActionListener(new ActionListener() {
+		addPassword.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				passwordAdd(e);
 			}
@@ -278,8 +278,10 @@ class Gui extends JFrame {
 		add(txtB);
 		add(lblA);
 		add(lblB);
+		add(error);
 		lblA.setText("ID: ");
 		lblB.setText("EncryptPass: ");
+		error.setText("Type in the id of the password you want, then type in the encryption password.");
 		add(passwordFind);
 		repaint();
 	}
@@ -289,11 +291,17 @@ class Gui extends JFrame {
 		String username = txtB.getText();
 		String password = txtD.getText();
 		String encPassword = txtE.getText();
-		if (id == "" || username == "" || password == "" || encPassword == "") {
-			error.setText("You did something wrong.");
+		System.out.println("id: " + id);
+		System.out.println("username: " + username);
+		System.out.println("password: " + password);
+		System.out.println("EncPassword: " + encPassword);
+		if (id.equals("") || username.equals("") || password.equals("") || encPassword.equals("")) {
+			error.setText("You didn't enter all the fileds correctly.");
+			System.out.println("You did something wrong.");
 		}
 		else {
-			PasswordManager.addPassword(id, username, password, encPassword);
+			System.out.println("Calling add password");
+			PasswordManager.addPassword("pwd"+id, username, password, encPassword);
 			error.setText("The Password has been added");
 		}
 		repaint();
@@ -301,12 +309,14 @@ class Gui extends JFrame {
 	
 	private void passwordGet(ActionEvent evt) {
 		String id = txtA.getText();
-		String encPassword = txtE.getText();
-		if (id == "" || encPassword == "") {
-			error.setText("You did something wrong.");
+		String encPassword = txtB.getText();
+		System.out.println("Get id: "+id);
+		System.out.println("Get EncPassword: "+ encPassword);
+		if (id.equals("")|| encPassword.equals("")) {
+			error.setText("You didn't enter all the fields correctly.");
 		}
 		else {
-			String finalText = PasswordManager.getPassword(id, encPassword);
+			String finalText = PasswordManager.getPassword("pwd"+id, encPassword);
 			error.setText(finalText);
 		}
 	}
@@ -341,7 +351,7 @@ class Gui extends JFrame {
 		int lenPassword = 0;
 		String passwordLen = txtA.getText();
 		String seed = txtB.getText();
-		if (seed == "" || passwordLen == "") {
+		if (seed.equals("") || passwordLen.equals("")) {
 			error.setText("You something wrong");
 		}
 		else {
@@ -458,7 +468,7 @@ class Gui extends JFrame {
 			if (fileCheck == false) {
 				String text = txtA.getText();
 				String password = txtB.getText();
-				if (text == "" || password == "") {
+				if (text.equals("") || password.equals("")) {
 					error.setText("Type in the inputs, then hit the encrypt button.");
 				} else {
 					try {
@@ -496,7 +506,7 @@ class Gui extends JFrame {
 			if (fileCheck == false) {
 				String text = txtA.getText();
 				String password = txtB.getText();
-				if (text == "" || password == "") {
+				if (text.equals("")|| password.equals("")) {
 					error.setText("Type in the inputs, then hit the encrypt button.");
 				} else {
 					try {

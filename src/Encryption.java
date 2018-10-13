@@ -32,6 +32,7 @@ public class Encryption {
 		Cipher c = Cipher.getInstance(ALGO);
 		c.init(Cipher.ENCRYPT_MODE, key);
 		byte[] encVal = c.doFinal(data.getBytes());
+		System.out.println("About to return");
 		return Base64.getEncoder().encodeToString(encVal); //returns the encrypted text
 	}
 
