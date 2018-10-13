@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 class Gui extends JFrame {
+	//Variables
 	static int mode = 0;
 	static int ENCRYPTION = 1;
 	static int DECRYPTION = 2;
@@ -10,6 +11,7 @@ class Gui extends JFrame {
 	static boolean done = false;
 	static boolean continueOn = true;
 
+	//buttons
 	private JButton decrypt = new JButton("Decrypt");
 	private JButton encrypt = new JButton("Encrypt");
 	private JButton decryptButton = new JButton("Decrypt Text");
@@ -29,6 +31,7 @@ class Gui extends JFrame {
 	private JButton decryptFile = new JButton("Decrypt File");
 	private JButton decryptText = new JButton("Decrypt Text");
 
+	//textFields
 	private JTextField txtA = new JTextField();
 	private JTextField txtB = new JTextField();
 	private JTextField prompt = new JTextField();
@@ -36,7 +39,8 @@ class Gui extends JFrame {
 	private JTextField error = new JTextField();
 	private JTextField txtD = new JTextField();
 	private JTextField txtE = new JTextField();
-
+	
+	//Labels
 	private JLabel lblA = new JLabel("Text :");
 	private JLabel lblB = new JLabel("Password :");
 	private JLabel lblC = new JLabel("Input Path :");
@@ -44,7 +48,8 @@ class Gui extends JFrame {
 	private JLabel lblE = new JLabel("ID: ");
 	private JLabel lblF = new JLabel("Password Len:");
 	private JLabel lblG = new JLabel("Seed: ");
-
+	
+	//defines the size and other factors of the GUI
 	public Gui() {
 		setTitle("Encryption Service");
 		setSize(900, 500);
@@ -55,7 +60,7 @@ class Gui extends JFrame {
 		initComponent();
 		initEvent();
 	}
-
+	//defines placement of all the objects
 	private void initComponent() {
 		encrypt.setBounds(360, 150, 200, 40);
 		decrypt.setBounds(360, 200, 200, 40);
@@ -111,7 +116,7 @@ class Gui extends JFrame {
 	}
 
 	private void initEvent() {
-
+		//functions for each button press
 		this.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				System.exit(1);
@@ -226,6 +231,7 @@ class Gui extends JFrame {
 		});
 	}
 	
+	//used for PasswordGenerator
 	public static int editDist(String str1, String str2) {
 		int m = str1.length();
 		int n = str2.length();
@@ -249,7 +255,7 @@ class Gui extends JFrame {
 
 		return dp[m][n];
 	}
-	
+	//layouts the gui
 	private void readyPasswordAdd(ActionEvent evt) {
 		passwordAdd.setVisible(false);
 		passwordGet.setVisible(false);
@@ -270,7 +276,7 @@ class Gui extends JFrame {
 		error.setText("Type the id for the password, the username, password, and the password for encryption.");
 		repaint();
 	}
-	
+	//layouts the gui
 	private void readyPasswordGet(ActionEvent evt) {
 		passwordAdd.setVisible(false);
 		passwordGet.setVisible(false);
@@ -291,16 +297,16 @@ class Gui extends JFrame {
 		String username = txtB.getText();
 		String password = txtD.getText();
 		String encPassword = txtE.getText();
-		System.out.println("id: " + id);
-		System.out.println("username: " + username);
-		System.out.println("password: " + password);
-		System.out.println("EncPassword: " + encPassword);
+		//System.out.println("id: " + id);
+		//System.out.println("username: " + username);
+		//System.out.println("password: " + password);
+		//System.out.println("EncPassword: " + encPassword);
 		if (id.equals("") || username.equals("") || password.equals("") || encPassword.equals("")) {
 			error.setText("You didn't enter all the fileds correctly.");
-			System.out.println("You did something wrong.");
+			//System.out.println("You did something wrong.");
 		}
 		else {
-			System.out.println("Calling add password");
+			//System.out.println("Calling add password");
 			PasswordManager.addPassword("pwd"+id, username, password, encPassword);
 			error.setText("The Password has been added");
 		}
@@ -310,8 +316,8 @@ class Gui extends JFrame {
 	private void passwordGet(ActionEvent evt) {
 		String id = txtA.getText();
 		String encPassword = txtB.getText();
-		System.out.println("Get id: "+id);
-		System.out.println("Get EncPassword: "+ encPassword);
+		//System.out.println("Get id: "+id);
+		//System.out.println("Get EncPassword: "+ encPassword);
 		if (id.equals("")|| encPassword.equals("")) {
 			error.setText("You didn't enter all the fields correctly.");
 		}
@@ -320,7 +326,7 @@ class Gui extends JFrame {
 			error.setText(finalText);
 		}
 	}
-	
+	//layouts the gui
 	private void passwordStrengthButton(ActionEvent evt) {
 		add(error);
 		error.setText("Type in the password.");
@@ -332,7 +338,7 @@ class Gui extends JFrame {
 		add(strengthButton);
 		repaint();
 	}
-	
+	//layouts the gui
 	private void makePasswordGen(ActionEvent evt) {
 		add(error);
 		error.setText("Type in the password length(number) and seed.");
@@ -376,7 +382,7 @@ class Gui extends JFrame {
 		error.setText(score);
 		repaint();
 	}
-
+	//layouts the gui
 	private void passwordGen(ActionEvent evt) {
 		encrypt.setVisible(false);
 		decrypt.setVisible(false);
@@ -386,7 +392,7 @@ class Gui extends JFrame {
 		add(passwordNew);
 		repaint();
 	}
-
+	//layouts the gui
 	private void passwordMan(ActionEvent evt) {
 		encrypt.setVisible(false);
 		decrypt.setVisible(false);
@@ -396,7 +402,7 @@ class Gui extends JFrame {
 		add(passwordGet);
 		repaint();
 	}
-
+	//layouts the gui
 	private void createEncryptButton(ActionEvent evt) {
 		prompt.setVisible(false);
 		encryptFile.setVisible(false);
@@ -446,7 +452,8 @@ class Gui extends JFrame {
 		add(decryptButton);
 		repaint();
 	}
-
+	
+	//asks if the encryption/decryption is needed for a file
 	private void askIfFile(ActionEvent evt) {
 		encrypt.setVisible(false);
 		decrypt.setVisible(false);

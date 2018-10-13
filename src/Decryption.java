@@ -17,7 +17,7 @@ public class Decryption {
 			keyValue = Arrays.copyOfRange(key, 0, 16);
 
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
+			//System.out.println(e.getStackTrace());
 		}
 		return null;
 	}

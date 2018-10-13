@@ -17,7 +17,7 @@ public class Encryption {
 			keyValue = Arrays.copyOfRange(key, 0, 16);
 
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
+			//System.out.println(e.getStackTrace());
 		}
 		return null;
 	}
@@ -32,7 +32,7 @@ public class Encryption {
 		Cipher c = Cipher.getInstance(ALGO);
 		c.init(Cipher.ENCRYPT_MODE, key);
 		byte[] encVal = c.doFinal(data.getBytes());
-		System.out.println("About to return");
+		//System.out.println("About to return");
 		return Base64.getEncoder().encodeToString(encVal); //returns the encrypted text
 	}
 
